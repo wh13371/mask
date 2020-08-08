@@ -2,7 +2,7 @@
 
 ## A log file hash/mask utility
 
-Parses log file(s) as an [input], hash(s) or mask(s) specific content, based on Regex's in an input [regex file], to [output] file(s).
+Parses log files/directories/STDIN, redacts (hash/mask) specific content to output files, based on regexes in a reget.txt file.
 
 # Example Input Log File (i.e "log.log")
     
