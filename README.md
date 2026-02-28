@@ -6,56 +6,24 @@ Parses log files/directories/STDIN, redacts (hash/mask) specific content to outp
 
 # Example Input Log File (i.e "log.log")
     
-    some text to ignore
-    ANI		'9876'
-    ignore this also
-            DNIS	'9702'
-    Target 'fizz' @ '10.20.30.40' - keep this
-    middle
-    some text to ignore
-        ANI		'9876'
-    ignore this also
-            DNIS	'9702'
-    Target 'flo' @ '40.30.20.10' - keep this
-    end
-    
+    2025-11-19 08:11:46 - INFO - Started HTTP server
+    2025-11-19 08:15:07 - DEBUG - User:'clint.eastwood' successfully logged-in from IP:192.168.1.22
+    2025-11-19 08:15:07 - DEBUG - User:'clint.eastwood' DNIS=9999 ANI=1234
+    2025-11-19 08:22:58 - WARNING - Disk usage exceeded 90%
 
 # Regex Input File (default="regex.txt")
 
-    \tANI\t\t'(\d+)'
-    \t\tDNIS\t'(\d+)'
-    Target '(.*)' @ '(\S+)'
+    .*User:'(.*)'
+    .*DNIS=(.*).ANI=(.*)
+    .*IP:(.*)
 
+# Hash Example Output Log File ("log.log_2026-02-28 12:00:39.309499.OUT")
 
-# Hash Example Output Log File ("log.log.#.2020-08-02 17:00:39.309499")
+    2025-11-19 08:11:46 - INFO - Started HTTP server
+    2025-11-19 08:15:07 - DEBUG - User:'55502a99bc7e6869e2e20f2cfe6f2df7' successfully logged-in from IP:46888c135058fbc76e318d665a8d030d
+    2025-11-19 08:15:07 - DEBUG - User:'55502a99bc7e6869e2e20f2cfe6f2df7' DNIS=b97fad7d9df377cd722796cb8892bb2e ANI=f346a8dd3905996459ddd8edec7de68d
+    2025-11-19 08:22:58 - WARNING - Disk usage exceeded 90%
 
-    some text to ignore
-        ANI		'ac807d6248ed4a68197c817e8fd1f4a5'
-    ignore this also
-            DNIS	'ee0d294a65beacb211878a54dd6d3e3f'
-    Target 'f458fa957e0d3c2dd9b146253d35769a' @ '219b3ba5488949170a89560ad1824293' - keep this
-    middle
-    some text to ignore
-        ANI		'ac807d6248ed4a68197c817e8fd1f4a5'
-    ignore this also
-            DNIS	'ee0d294a65beacb211878a54dd6d3e3f'
-    Target '88e27b75d1e505030453fdfb07049600' @ 'b4cf215a6c91fdafe45f8e30e2e75e84' - keep this
-    end
-
-# Mask Example Output Log File ("log.log.#.2020-08-02 17:01:51.131909")
-
-    some text to ignore
-        ANI		'<<<REDACTED>>>'
-    ignore this also
-            DNIS	'<<<REDACTED>>>'
-    Target '<<<REDACTED>>>' @ '<<<REDACTED>>>' - keep this
-    middle
-    some text to ignore
-        ANI		'<<<REDACTED>>>'
-    ignore this also
-            DNIS	'<<<REDACTED>>>'
-    Target '<<<REDACTED>>>' @ '<<<REDACTED>>>' - keep this
-    end
 
 # Usage Examples:
   
