@@ -1,22 +1,25 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
+
 import fileinput, argparse, re, hashlib, json, os, sys, time, datetime
 from pprint import pprint
 
 args = argparse.ArgumentParser(usage='%(prog)s FILE(s) [-ormqsvV --mapfile]', description='python log file hash/mask utility')
 
-def parse_cmd_args(): # overkill on the args for my education
+def parse_cmd_args(): # intentional overkill on the args for my education
  global args
  args.add_argument('FILES', nargs='*', help='log FILE(s) or PATH or STDIN to hash/mask')
  args.add_argument('-o', '--output', dest="OUTPUT_DIR", help='output directory') # --output /home/fizz/out/
  args.add_argument("-r", dest="REGEX_FILE", default='regex.txt', help="regex pattern input file")
  args.add_argument('-m', '--mask', action='store_true', dest="MASK_NOT_HASH", help='mask with <<<REDACT>>> not hash redaction')
- args.add_argument('-s', '--suffix', dest="OUTPUT_SUFFIX", default=".#." + str(datetime.datetime.now()), help='output file suffix')
+ args.add_argument('-s', '--suffix', dest="OUTPUT_SUFFIX", default="_" + str(datetime.datetime.now()) + ".OUT", help='output file suffix')
  args.add_argument('--mapfile', dest="MAP_FILE", default="map.txt", help='output map file')
  args.add_argument('-v', '--version', action='version', version='%(prog)s 46664')
  group = args.add_mutually_exclusive_group() # either -q or -V but not both
  group.add_argument('-V', dest="DEBUG", action='count', default=0, help="++ the verbosity output") # -V or -VV or -VVV
  group.add_argument('-q', '--quiet', action='store_true', dest="QUIET", default=False, help="no output")
+ 
  args = args.parse_args()
+ 
  if args.DEBUG >= 1:
    for arg in vars(args): print (arg, getattr(args, arg))
  return args
@@ -83,7 +86,7 @@ def run():
 
 def write_hash_map_to_file(hashmap):
     with open(args.MAP_FILE,'w') as fout_map:
-        pprint(hashmap,stream=fout_map)
+        pprint(hashmap, stream=fout_map) # allows correlation of hashed values
     if args.DEBUG >= 1: print(json.dumps(hashmap, indent=4))
 
 if __name__ == '__main__':
@@ -116,5 +119,4 @@ cat log.txt | ./mask.py
 cat log.txt | ./mask.py -V
 cat log.txt | ./mask.py -VVV -o /home/fizz/out/
 
-Perf: processes a 50MB file, with 127 chars per line, 409599 lines, 4 regex matches per line in ~3 minutes, with a 70MB output file.
 """
