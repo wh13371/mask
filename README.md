@@ -4,20 +4,20 @@
 
 Parses log files/directories/STDIN, redacts (hash/mask) specific content to output files, based on regexes in a regex.txt file.
 
-## Example Input Log File (i.e "log.log")
+## Example input Log File (i.e "log.log")
     
     2025-11-19 08:11:46 - INFO - Started HTTP server
     2025-11-19 08:15:07 - DEBUG - User:'clint.eastwood' successfully logged-in from IP:192.168.1.22
     2025-11-19 08:15:07 - DEBUG - User:'clint.eastwood' DNIS=9999 ANI=1234
     2025-11-19 08:22:58 - WARNING - Disk usage exceeded 90%
 
-## Regex Input File (default="regex.txt")
+## Example Regex input file (default="regex.txt")
 
     .*User:'(.*)'
     .*DNIS=(.*).ANI=(.*)
     .*IP:(.*)
 
-## Hash Example Output Log File ("log.log_2026-02-28 12:00:39.309499.OUT")
+## Example hashed output file ("log.log_2026-02-28 12:00:39.309499.OUT")
 
     2025-11-19 08:11:46 - INFO - Started HTTP server
     2025-11-19 08:15:07 - DEBUG - User:'55502a99bc7e6869e2e20f2cfe6f2df7' successfully logged-in from IP:46888c135058fbc76e318d665a8d030d
@@ -25,7 +25,7 @@ Parses log files/directories/STDIN, redacts (hash/mask) specific content to outp
     2025-11-19 08:22:58 - WARNING - Disk usage exceeded 90%
 
 
-## Usage Examples:
+## Usage examples:
   
 Process all files in the /home/fizz/tmp directory.
   
